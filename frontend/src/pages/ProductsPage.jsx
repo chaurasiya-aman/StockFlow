@@ -14,7 +14,7 @@ export default function ProductsPage() {
   const token = localStorage.getItem("stockflow_token");
   const user = JSON.parse(localStorage.getItem("stockflow_user") || "{}");
   const organizationName = user.organization?.name || "Your organization";
-  const defaultThreshold = user.organization?.defaultLowStockThreshold ?? 5;
+  const [defaultThreshold, setDefaultThreshold] = useState(user.organization?.defaultLowStockThreshold ?? 5);
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -41,6 +41,16 @@ export default function ProductsPage() {
         setError(requestError.response?.data?.error || "Could not load products. Please try again.");
       })
       .finally(() => setLoading(false));
+  }, [token]);
+
+  useEffect(() => {
+    if (!token) return;
+
+    axios.get(`${API_URL}/settings`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(({ data }) => setDefaultThreshold(data.defaultLowStockThreshold))
+      .catch(() => {});
   }, [token]);
 
   useEffect(() => {
@@ -166,6 +176,7 @@ export default function ProductsPage() {
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
             <Link to="/dashboard" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Dashboard</Link>
+            <Link to="/settings" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Settings</Link>
             <button onClick={startAdding} className="rounded-lg bg-emerald-800 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-900">
               Add product
             </button>
@@ -301,11 +312,11 @@ export default function ProductsPage() {
               </label>
               <label className="text-sm font-medium text-slate-700">
                 Cost price
-                <input type="number" min="0" step="0.01" required value={editForm.costPrice} onChange={(event) => setEditForm({ ...editForm, costPrice: event.target.value })} className="mt-1.5 w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-emerald-700" />
+                <input type="number" min="0" step="0.01" value={editForm.costPrice} onChange={(event) => setEditForm({ ...editForm, costPrice: event.target.value })} className="mt-1.5 w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-emerald-700" />
               </label>
               <label className="text-sm font-medium text-slate-700">
                 Selling price
-                <input type="number" min="0" step="0.01" required value={editForm.sellingPrice} onChange={(event) => setEditForm({ ...editForm, sellingPrice: event.target.value })} className="mt-1.5 w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-emerald-700" />
+                <input type="number" min="0" step="0.01" value={editForm.sellingPrice} onChange={(event) => setEditForm({ ...editForm, sellingPrice: event.target.value })} className="mt-1.5 w-full rounded-lg border border-slate-200 px-3 py-2.5 outline-none focus:border-emerald-700" />
               </label>
               <label className="text-sm font-medium text-slate-700">
                 Low-stock threshold

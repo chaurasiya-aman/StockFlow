@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoute.js";
+import settingsRoutes from "./routes/settingsRoute.js";
 import { authenticateUser } from "./middleware/authMiddleware.js";
 import { getDashboard } from "./controllers/productController.js";
 
@@ -19,6 +20,7 @@ app.use(cors({
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/settings", settingsRoutes);
 app.get("/api/dashboard", authenticateUser, getDashboard);
 
 app.use((_, res) => {

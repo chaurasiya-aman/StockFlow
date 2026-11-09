@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import ProductDetailsPage from "./pages/ProductDetailsPage.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
 import SignupPage from "./pages/SignupPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

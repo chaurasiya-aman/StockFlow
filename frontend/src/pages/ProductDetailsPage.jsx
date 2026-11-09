@@ -14,6 +14,7 @@ export default function ProductDetailsPage() {
   const token = localStorage.getItem("stockflow_token");
   const user = JSON.parse(localStorage.getItem("stockflow_user") || "{}");
   const [product, setProduct] = useState(null);
+  const [defaultThreshold, setDefaultThreshold] = useState(user.organization?.defaultLowStockThreshold ?? 5);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -33,9 +34,19 @@ export default function ProductDetailsPage() {
       .finally(() => setLoading(false));
   }, [id, token]);
 
+  useEffect(() => {
+    if (!token) return;
+
+    axios.get(`${API_URL}/settings`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(({ data }) => setDefaultThreshold(data.defaultLowStockThreshold))
+      .catch(() => {});
+  }, [token]);
+
   if (!token) return <Navigate to="/login" replace />;
 
-  const threshold = product?.lowStockThreshold ?? user.organization?.defaultLowStockThreshold ?? 5;
+  const threshold = product?.lowStockThreshold ?? defaultThreshold;
   const isLowStock = product && product.quantityOnHand <= threshold;
 
   return (
@@ -48,6 +59,7 @@ export default function ProductDetailsPage() {
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
+            <Link to="/settings" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">Settings</Link>
             <button onClick={() => navigate("/products")} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">
               Back to products
             </button>
