@@ -8,11 +8,20 @@ const currency = new Intl.NumberFormat("en-IN", {
   currency: "INR",
 });
 
+function getStoredUser() {
+  try {
+    const user = JSON.parse(localStorage.getItem("stockflow_user") || "{}");
+    return user && typeof user === "object" && !Array.isArray(user) ? user : {};
+  } catch {
+    return {};
+  }
+}
+
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const token = localStorage.getItem("stockflow_token");
-  const user = JSON.parse(localStorage.getItem("stockflow_user") || "{}");
+  const user = getStoredUser();
   const [product, setProduct] = useState(null);
   const [defaultThreshold, setDefaultThreshold] = useState(user.organization?.defaultLowStockThreshold ?? 5);
   const [loading, setLoading] = useState(true);

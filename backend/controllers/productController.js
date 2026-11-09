@@ -29,8 +29,8 @@ function validateProduct(body) {
     return { error: "Description must be 1000 characters or less" };
   }
 
-  if (!Number.isInteger(quantityOnHand) || quantityOnHand < 0) {
-    return { error: "Quantity must be a non-negative whole number" };
+  if (!Number.isInteger(quantityOnHand) || quantityOnHand < 0 || quantityOnHand > 2147483647) {
+    return { error: "Quantity must be a whole number from 0 to 2147483647" };
   }
 
   if (
@@ -46,9 +46,9 @@ function validateProduct(body) {
 
   if (
     lowStockThreshold !== null &&
-    (!Number.isInteger(lowStockThreshold) || lowStockThreshold < 0)
+    (!Number.isInteger(lowStockThreshold) || lowStockThreshold < 0 || lowStockThreshold > 2147483647)
   ) {
-    return { error: "Low-stock threshold must be a non-negative whole number" };
+    return { error: "Low-stock threshold must be a whole number from 0 to 2147483647" };
   }
 
   return {

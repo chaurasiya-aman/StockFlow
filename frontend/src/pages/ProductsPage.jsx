@@ -8,11 +8,20 @@ const currency = new Intl.NumberFormat("en-IN", {
   currency: "INR",
 });
 
+function getStoredUser() {
+  try {
+    const user = JSON.parse(localStorage.getItem("stockflow_user") || "{}");
+    return user && typeof user === "object" && !Array.isArray(user) ? user : {};
+  } catch {
+    return {};
+  }
+}
+
 export default function ProductsPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const token = localStorage.getItem("stockflow_token");
-  const user = JSON.parse(localStorage.getItem("stockflow_user") || "{}");
+  const user = getStoredUser();
   const organizationName = user.organization?.name || "Your organization";
   const [defaultThreshold, setDefaultThreshold] = useState(user.organization?.defaultLowStockThreshold ?? 5);
   const [products, setProducts] = useState([]);
@@ -80,8 +89,7 @@ export default function ProductsPage() {
   });
 
   function logout() {
-    localStorage.removeItem("stockflow_token");
-    localStorage.removeItem("stockflow_user");
+    localStorage.clear();
     navigate("/login", { replace: true });
   }
 

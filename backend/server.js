@@ -28,8 +28,16 @@ app.use((_, res) => {
 });
 
 app.use((error, req, res, next) => {
-  console.error(error);
-  res.status(500).json({ error: "Internal server error" });
+  const status = Number.isInteger(error.status) && error.status >= 400 && error.status < 500
+    ? error.status
+    : 500;
+  if (status === 500) console.error(error);
+  const message = error.type === "entity.parse.failed"
+    ? "Request body must contain valid JSON"
+    : status === 500
+      ? "Internal server error"
+      : "Invalid request";
+  res.status(status).json({ error: message });
 });
 
 const port = Number(process.env.PORT);

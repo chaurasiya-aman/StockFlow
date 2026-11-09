@@ -4,10 +4,19 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_APP_URL;
 
+function getStoredUser() {
+  try {
+    const user = JSON.parse(localStorage.getItem("stockflow_user") || "{}");
+    return user && typeof user === "object" && !Array.isArray(user) ? user : {};
+  } catch {
+    return {};
+  }
+}
+
 export default function DashboardPage() {
   const navigate = useNavigate();
   const token = localStorage.getItem("stockflow_token");
-  const user = JSON.parse(localStorage.getItem("stockflow_user") || "{}");
+  const user = getStoredUser();
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -31,8 +40,7 @@ export default function DashboardPage() {
   if (!token) return <Navigate to="/login" replace />;
 
   function logout() {
-    localStorage.removeItem("stockflow_token");
-    localStorage.removeItem("stockflow_user");
+    localStorage.clear();
     navigate("/login", { replace: true });
   }
 
