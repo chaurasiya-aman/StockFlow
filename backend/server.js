@@ -2,6 +2,7 @@ import "dotenv/config";
 import cors from "cors";
 import express from "express";
 import authRoutes from "./routes/authRoutes.js";
+import productRoutes from "./routes/productRoute.js";
 
 if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET must be set in backend/.env");
@@ -15,6 +16,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
 
 app.use((_, res) => {
   res.status(404).json({ error: "Route not found" });
