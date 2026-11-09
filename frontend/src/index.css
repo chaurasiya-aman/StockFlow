@@ -24,6 +24,14 @@ input {
   font: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
