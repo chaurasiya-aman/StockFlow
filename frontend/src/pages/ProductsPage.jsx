@@ -24,6 +24,8 @@ export default function ProductsPage() {
   const [editForm, setEditForm] = useState(null);
   const [editError, setEditError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const [deleteError, setDeleteError] = useState("");
 
   useEffect(() => {
     if (!token) {
@@ -134,6 +136,25 @@ export default function ProductsPage() {
     }
   }
 
+  async function deleteProduct(event, product) {
+    event.stopPropagation();
+    if (!window.confirm(`Delete ${product.name}? This cannot be undone.`)) return;
+
+    setDeletingId(product.id);
+    setDeleteError("");
+
+    try {
+      await axios.delete(`${API_URL}/products/${product.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProducts((current) => current.filter((item) => item.id !== product.id));
+    } catch (requestError) {
+      setDeleteError(requestError.response?.data?.error || "Could not delete the product. Please try again.");
+    } finally {
+      setDeletingId(null);
+    }
+  }
+
   return (
     <main className="min-h-screen bg-[#f5f6f2] px-4 py-6 sm:px-8 lg:px-12">
       <div className="mx-auto max-w-6xl">
@@ -173,6 +194,8 @@ export default function ProductsPage() {
             />
           </label>
 
+          {deleteError && <p className="mt-4 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">{deleteError}</p>}
+
           <section className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             {loading ? (
               <p className="p-8 text-center text-sm text-slate-500">Loading products…</p>
@@ -192,7 +215,7 @@ export default function ProductsPage() {
                       <th className="px-5 py-4 text-right font-medium">On hand</th>
                       <th className="px-5 py-4 text-right font-medium">Selling price</th>
                       <th className="px-5 py-4 font-medium">Stock status</th>
-                      <th className="px-5 py-4 font-medium">Action</th>
+                      <th className="px-5 py-4 font-medium">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
@@ -229,9 +252,18 @@ export default function ProductsPage() {
                             </span>
                           </td>
                           <td className="cursor-pointer px-5 py-4">
-                            <button onClick={(event) => { event.stopPropagation(); startEditing(product); }} className="cursor-pointer font-medium text-emerald-800 hover:text-emerald-950">
-                              Edit
-                            </button>
+                            <div className="flex items-center gap-3">
+                              <button onClick={(event) => { event.stopPropagation(); startEditing(product); }} className="cursor-pointer font-medium text-emerald-800 hover:text-emerald-950">
+                                Edit
+                              </button>
+                              <button
+                                disabled={deletingId === product.id}
+                                onClick={(event) => deleteProduct(event, product)}
+                                className="cursor-pointer font-medium text-rose-700 hover:text-rose-900 disabled:cursor-not-allowed disabled:opacity-60"
+                              >
+                                {deletingId === product.id ? "Deleting..." : "Delete"}
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       );
