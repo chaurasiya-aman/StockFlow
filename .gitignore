@@ -1,0 +1,8 @@
+node_modules/
+.env
+*.db
+/backend/generated/
+/backend/.agents/
+/backend/.claude/
+/backend/.windsurf/
+/backend/skills-lock.json
