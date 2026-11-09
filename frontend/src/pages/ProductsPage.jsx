@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_APP_URL;
 const currency = new Intl.NumberFormat("en-IN", {
@@ -59,7 +59,7 @@ export default function ProductsPage() {
       lowStockThreshold: product.lowStockThreshold == null ? "" : String(product.lowStockThreshold),
     });
     setEditError("");
-    navigate("/", { replace: true, state: null });
+    navigate("/products", { replace: true, state: null });
   }, [location.state, navigate]);
 
   if (!token) return <Navigate to="/login" replace />;
@@ -164,6 +164,7 @@ export default function ProductsPage() {
             <p className="mt-1 text-sm font-medium text-slate-700">{organizationName}</p>
           </div>
           <div className="flex items-center gap-2">
+            <Link to="/dashboard" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Dashboard</Link>
             <button onClick={startAdding} className="rounded-lg bg-emerald-800 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-900">
               Add product
             </button>

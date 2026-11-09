@@ -179,3 +179,49 @@ export async function deleteProduct(req, res, next) {
     return next(error);
   }
 }
+
+export async function getDashboard(req, res, next) {
+  try {
+    const organizationId = req.auth.organizationId;
+    const [summary, organization, products] = await Promise.all([
+      prisma.product.aggregate({
+        where: { organizationId },
+        _count: { _all: true },
+        _sum: { quantityOnHand: true },
+      }),
+      prisma.organization.findUnique({
+        where: { id: organizationId },
+        select: { defaultLowStockThreshold: true },
+      }),
+      prisma.product.findMany({
+        where: { organizationId },
+        select: {
+          id: true,
+          name: true,
+          sku: true,
+          quantityOnHand: true,
+          lowStockThreshold: true,
+        },
+        orderBy: { quantityOnHand: "asc" },
+      }),
+    ]);
+
+    if (!organization) return res.status(404).json({ error: "Organization not found" });
+
+    const lowStockProducts = products
+      .filter((product) => product.quantityOnHand <= (product.lowStockThreshold ?? organization.defaultLowStockThreshold))
+      .map((product) => ({
+        ...product,
+        lowStockThreshold: product.lowStockThreshold ?? organization.defaultLowStockThreshold,
+      }));
+
+    return res.json({
+      totalProducts: summary._count._all,
+      totalQuantityOnHand: summary._sum.quantityOnHand ?? 0,
+      lowStockCount: lowStockProducts.length,
+      lowStockProducts,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}

@@ -6,9 +6,10 @@ const API_URL = import.meta.env.VITE_APP_URL;
 
 export default function SignupPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ organizationName: "", email: "", password: "" });
+  const [form, setForm] = useState({ organizationName: "", email: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   function updateForm(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -17,13 +18,23 @@ export default function SignupPage() {
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
+
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const { data } = await axios.post(`${API_URL}/auth/signup`, form);
+      const { data } = await axios.post(`${API_URL}/auth/signup`, {
+        organizationName: form.organizationName,
+        email: form.email,
+        password: form.password,
+      });
       localStorage.setItem("stockflow_token", data.token);
       localStorage.setItem("stockflow_user", JSON.stringify(data.user));
-      navigate("/");
+      navigate("/dashboard");
     } catch (requestError) {
       setError(requestError.response?.data?.error || "Could not create your account. Please try again.");
     } finally {
@@ -50,7 +61,16 @@ export default function SignupPage() {
           </label>
           <label className="block text-sm font-medium text-slate-700">
             Password
-            <input name="password" type="password" value={form.password} onChange={updateForm} autoComplete="new-password" minLength={8} maxLength={72} required className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10" placeholder="At least 8 characters" />
+            <span className="relative mt-2 block">
+              <input name="password" type={showPassword ? "text" : "password"} value={form.password} onChange={updateForm} autoComplete="new-password" minLength={8} maxLength={72} required className="w-full rounded-xl border border-slate-200 px-4 py-3 pr-16 outline-none focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10" placeholder="At least 8 characters" />
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-emerald-800">
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </span>
+          </label>
+          <label className="block text-sm font-medium text-slate-700">
+            Confirm password
+            <input name="confirmPassword" type={showPassword ? "text" : "password"} value={form.confirmPassword} onChange={updateForm} autoComplete="new-password" minLength={8} maxLength={72} required className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10" placeholder="Enter your password again" />
           </label>
           {error && <p className="rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">{error}</p>}
           <button disabled={loading} className="w-full rounded-xl bg-emerald-800 px-5 py-3.5 text-sm font-semibold text-white hover:bg-emerald-900 disabled:opacity-60">

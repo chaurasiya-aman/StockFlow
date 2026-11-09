@@ -43,10 +43,10 @@ export default function ProductDetailsPage() {
       <div className="mx-auto max-w-4xl">
         <header className="flex items-center justify-between border-b border-slate-200 pb-5">
           <div>
-            <Link to="/" className="text-sm font-bold tracking-tight text-emerald-900">StockFlow</Link>
+            <Link to="/products" className="text-sm font-bold tracking-tight text-emerald-900">StockFlow</Link>
             <p className="mt-1 text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
           </div>
-          <button onClick={() => navigate("/")} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">
+          <button onClick={() => navigate("/products")} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">
             Back to products
           </button>
         </header>
@@ -70,7 +70,7 @@ export default function ProductDetailsPage() {
                     {isLowStock ? "Low stock" : "In stock"}
                   </span>
                   <button
-                    onClick={() => navigate("/", { state: { editProduct: product } })}
+                    onClick={() => navigate("/products", { state: { editProduct: product } })}
                     className="cursor-pointer rounded-lg bg-emerald-800 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-900"
                   >
                     Edit product
