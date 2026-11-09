@@ -164,6 +164,7 @@ export default function ProductsPage() {
             <p className="mt-1 text-sm font-medium text-slate-700">{organizationName}</p>
           </div>
           <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
             <Link to="/dashboard" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Dashboard</Link>
             <button onClick={startAdding} className="rounded-lg bg-emerald-800 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-900">
               Add product

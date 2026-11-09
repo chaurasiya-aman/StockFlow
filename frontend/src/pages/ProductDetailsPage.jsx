@@ -41,14 +41,17 @@ export default function ProductDetailsPage() {
   return (
     <main className="min-h-screen bg-[#f5f6f2] px-4 py-6 sm:px-8 lg:px-12">
       <div className="mx-auto max-w-4xl">
-        <header className="flex items-center justify-between border-b border-slate-200 pb-5">
+        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-5">
           <div>
             <Link to="/products" className="text-sm font-bold tracking-tight text-emerald-900">StockFlow</Link>
             <p className="mt-1 text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
           </div>
-          <button onClick={() => navigate("/products")} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">
-            Back to products
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
+            <button onClick={() => navigate("/products")} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">
+              Back to products
+            </button>
+          </div>
         </header>
 
         <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-9">

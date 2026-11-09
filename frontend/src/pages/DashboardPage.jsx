@@ -45,6 +45,7 @@ export default function DashboardPage() {
             <p className="mt-1 text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
           </div>
           <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
             <Link to="/products" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Products</Link>
             <button onClick={logout} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Sign out</button>
           </div>
