@@ -23,7 +23,8 @@ app.use("/api/products", productRoutes);
 app.use("/api/settings", settingsRoutes);
 app.get("/api/dashboard", authenticateUser, getDashboard);
 
-app.use((_, res) => {
+app.use((req, res) => {
+  console.warn(`[${new Date().toISOString()}] ${req.method} ${req.path} returned 404`);
   res.status(404).json({ error: "Route not found" });
 });
 
@@ -31,7 +32,11 @@ app.use((error, req, res, next) => {
   const status = Number.isInteger(error.status) && error.status >= 400 && error.status < 500
     ? error.status
     : 500;
-  if (status === 500) console.error(error);
+  const timestamp = new Date().toISOString();
+  console.error(
+    `[${timestamp}] ${req.method} ${req.path} failed with status ${status}`,
+    error.stack || error
+  );
   const message = error.type === "entity.parse.failed"
     ? "Request body must contain valid JSON"
     : status === 500
@@ -42,6 +47,21 @@ app.use((error, req, res, next) => {
 
 const port = Number(process.env.PORT);
 
-app.listen(port, () => {
+process.on("unhandledRejection", (reason) => {
+  console.error(`[${new Date().toISOString()}] Unhandled promise rejection`, reason);
+  process.exit(1);
+});
+
+process.on("uncaughtException", (error) => {
+  console.error(`[${new Date().toISOString()}] Uncaught exception`, error.stack || error);
+  process.exit(1);
+});
+
+const server = app.listen(port, () => {
   console.log(`StockFlow API listening on port ${port}`);
+});
+
+server.on("error", (error) => {
+  console.error(`[${new Date().toISOString()}] API server failed to start`, error.stack || error);
+  process.exit(1);
 });
