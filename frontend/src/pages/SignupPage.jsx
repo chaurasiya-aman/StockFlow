@@ -43,11 +43,11 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center bg-[#f5f6f2] p-5">
-      <section className="w-full max-w-md rounded-3xl bg-white p-7 shadow-xl shadow-emerald-950/5 sm:p-10">
+    <main className="grid min-h-screen place-items-center bg-[#f5f6f2] p-3 sm:p-5">
+      <section className="w-full max-w-md rounded-3xl bg-white p-5 shadow-xl shadow-emerald-950/5 sm:p-10">
         <Link to="/login" className="text-lg font-bold tracking-tight text-emerald-900">StockFlow</Link>
         <p className="mt-8 text-sm font-medium text-emerald-800">Get started</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">Create your workspace</h1>
+        <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">Create your workspace</h1>
         <p className="mt-2 text-sm leading-6 text-slate-500">Add your organization details to get started.</p>
 
         <form onSubmit={handleSubmit} className="mt-7 space-y-5">

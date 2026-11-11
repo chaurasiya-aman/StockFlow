@@ -75,24 +75,24 @@ export default function SettingsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f6f2] px-4 py-6 sm:px-8 lg:px-12">
+    <main className="min-h-screen bg-[#f5f6f2] px-3 py-4 sm:px-8 sm:py-6 lg:px-12">
       <div className="mx-auto max-w-4xl">
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <Link to="/dashboard" className="text-sm font-bold tracking-tight text-emerald-900">StockFlow</Link>
-            <p className="mt-1 text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
+            <p className="mt-1 break-words text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
           </div>
-          <nav className="flex flex-wrap items-center gap-2" aria-label="Main navigation">
-            <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
-            <Link to="/dashboard" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Dashboard</Link>
-            <Link to="/products" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Products</Link>
-            <button onClick={logout} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Sign out</button>
+          <nav className="flex w-full flex-wrap items-center gap-1 sm:w-auto sm:gap-2" aria-label="Main navigation">
+            <span className="w-full break-all text-xs text-slate-500 sm:w-auto sm:text-sm">{user.email}</span>
+            <Link to="/dashboard" className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white sm:px-3">Dashboard</Link>
+            <Link to="/products" className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white sm:px-3">Products</Link>
+            <button onClick={logout} className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white sm:px-3">Sign out</button>
           </nav>
         </header>
 
-        <section className="mt-8 max-w-xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="mt-6 max-w-xl rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:mt-8 sm:p-8">
           <p className="text-sm font-medium text-emerald-800">Organization settings</p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">Default low-stock threshold</h1>
+          <h1 className="mt-2 text-xl font-semibold tracking-tight text-slate-950 sm:text-2xl">Default low-stock threshold</h1>
           <p className="mt-2 text-sm leading-6 text-slate-500">
             Products without their own threshold use this value. Stock is low when quantity on hand is less than or equal to the threshold.
           </p>

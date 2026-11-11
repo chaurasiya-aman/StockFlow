@@ -45,23 +45,23 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f6f2] px-4 py-6 sm:px-8 lg:px-12">
+    <main className="min-h-screen bg-[#f5f6f2] px-3 py-4 sm:px-8 sm:py-6 lg:px-12">
       <div className="mx-auto max-w-6xl">
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <p className="text-sm font-bold tracking-tight text-emerald-900">StockFlow</p>
-            <p className="mt-1 text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
+            <p className="mt-1 break-words text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
-            <Link to="/products" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Products</Link>
-            <Link to="/settings" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Settings</Link>
-            <button onClick={logout} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Sign out</button>
+          <div className="flex w-full flex-wrap items-center gap-1 sm:w-auto sm:gap-2">
+            <span className="w-full break-all text-xs text-slate-500 sm:w-auto sm:text-sm">{user.email}</span>
+            <Link to="/products" className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white sm:px-3">Products</Link>
+            <Link to="/settings" className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white sm:px-3">Settings</Link>
+            <button onClick={logout} className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white sm:px-3">Sign out</button>
           </div>
         </header>
 
         <section className="py-8">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-950">Dashboard</h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">Dashboard</h1>
           <p className="mt-2 text-sm text-slate-500">A quick view of your inventory.</p>
 
           {loading ? (
@@ -90,7 +90,7 @@ export default function DashboardPage() {
                   <p className="p-8 text-center text-sm text-slate-500">No low-stock items.</p>
                 ) : (
                   <div className="overflow-x-auto">
-                    <table className="w-full min-w-[560px] text-left text-sm">
+                    <table className="w-full min-w-[520px] text-left text-sm">
                       <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                         <tr>
                           <th className="px-5 py-4 font-medium">Name</th>

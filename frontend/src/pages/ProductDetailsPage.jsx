@@ -59,15 +59,15 @@ export default function ProductDetailsPage() {
   const isLowStock = product && product.quantityOnHand <= threshold;
 
   return (
-    <main className="min-h-screen bg-[#f5f6f2] px-4 py-6 sm:px-8 lg:px-12">
+    <main className="min-h-screen bg-[#f5f6f2] px-3 py-4 sm:px-8 sm:py-6 lg:px-12">
       <div className="mx-auto max-w-4xl">
         <header className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-5">
           <div>
             <Link to="/products" className="text-sm font-bold tracking-tight text-emerald-900">StockFlow</Link>
-            <p className="mt-1 text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
+            <p className="mt-1 break-words text-sm font-medium text-slate-700">{user.organization?.name || "Your organization"}</p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
+          <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
+            <span className="w-full break-all text-xs text-slate-500 sm:w-auto sm:text-sm">{user.email}</span>
             <Link to="/settings" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">Settings</Link>
             <button onClick={() => navigate("/products")} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">
               Back to products
@@ -75,7 +75,7 @@ export default function ProductDetailsPage() {
           </div>
         </header>
 
-        <section className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-9">
+        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:mt-8 sm:p-9">
           {loading ? (
             <p className="py-10 text-center text-sm text-slate-500">Loading product...</p>
           ) : error ? (
@@ -85,7 +85,7 @@ export default function ProductDetailsPage() {
               <div className="flex flex-wrap items-start justify-between gap-4 border-b border-slate-100 pb-6">
                 <div>
                   <p className="font-mono text-xs text-slate-500">{product.sku}</p>
-                  <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">{product.name}</h1>
+                  <h1 className="mt-2 break-words text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">{product.name}</h1>
                   <p className="mt-2 text-sm text-slate-500">{product.description || "No description provided."}</p>
                 </div>
                 <div className="flex items-center gap-3">

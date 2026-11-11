@@ -174,21 +174,21 @@ export default function ProductsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f6f2] px-4 py-6 sm:px-8 lg:px-12">
+    <main className="min-h-screen bg-[#f5f6f2] px-3 py-4 sm:px-8 sm:py-6 lg:px-12">
       <div className="mx-auto max-w-6xl">
         <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <p className="text-sm font-bold tracking-tight text-emerald-900">StockFlow</p>
-            <p className="mt-1 text-sm font-medium text-slate-700">{organizationName}</p>
+            <p className="mt-1 break-words text-sm font-medium text-slate-700">{organizationName}</p>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-500 sm:text-sm">{user.email}</span>
-            <Link to="/dashboard" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Dashboard</Link>
-            <Link to="/settings" className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white">Settings</Link>
-            <button onClick={startAdding} className="rounded-lg bg-emerald-800 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-900">
+          <div className="flex w-full flex-wrap items-center gap-1 sm:w-auto sm:gap-2">
+            <span className="w-full break-all text-xs text-slate-500 sm:w-auto sm:text-sm">{user.email}</span>
+            <Link to="/dashboard" className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white sm:px-3">Dashboard</Link>
+            <Link to="/settings" className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white sm:px-3">Settings</Link>
+            <button onClick={startAdding} className="rounded-lg bg-emerald-800 px-3 py-2 text-sm font-semibold text-white hover:bg-emerald-900 sm:px-4">
               Add product
             </button>
-            <button onClick={logout} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950">
+            <button onClick={logout} className="rounded-lg px-2 py-2 text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-950 sm:px-3">
               Sign out
             </button>
           </div>
@@ -197,7 +197,7 @@ export default function ProductsPage() {
         <section className="py-8">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-semibold tracking-tight text-slate-950">Products</h1>
+              <h1 className="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">Products</h1>
               <p className="mt-2 text-sm text-slate-500">View and search {organizationName} inventory.</p>
             </div>
             <p className="rounded-full bg-white px-4 py-2 text-sm text-slate-600 shadow-sm">
@@ -211,7 +211,7 @@ export default function ProductsPage() {
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               placeholder="Search by name or SKU"
-              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none placeholder:text-slate-400 focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base outline-none placeholder:text-slate-400 focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10 sm:text-sm"
             />
           </label>
 
@@ -298,8 +298,8 @@ export default function ProductsPage() {
       </div>
 
       {(editing || adding) && editForm && (
-        <div className="fixed inset-0 z-10 grid place-items-center overflow-y-auto bg-slate-950/40 p-4">
-          <section role="dialog" aria-modal="true" aria-labelledby="edit-product-title" className="my-4 w-full max-w-xl rounded-2xl bg-white p-6 shadow-xl sm:p-8">
+        <div className="fixed inset-0 z-10 grid place-items-start overflow-y-auto bg-slate-950/40 p-3 sm:place-items-center sm:p-4">
+          <section role="dialog" aria-modal="true" aria-labelledby="edit-product-title" className="my-0 max-h-[calc(100dvh-1.5rem)] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-4 shadow-xl sm:my-4 sm:max-h-[calc(100dvh-2rem)] sm:p-8">
             <h2 id="edit-product-title" className="text-xl font-semibold text-slate-950">{adding ? "Add product" : "Edit product"}</h2>
             <form onSubmit={saveProduct} className="mt-5 grid gap-4 sm:grid-cols-2">
               <label className="text-sm font-medium text-slate-700">
